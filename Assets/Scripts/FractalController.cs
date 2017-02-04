@@ -65,6 +65,6 @@ public class FractalController : MonoBehaviour
 
 		Vector3 toCam = (CamTr.position - tr.position).normalized;
 		tr.forward = -toCam; //Unity's quad mesh is flipped backwards.
-		rnd.material.SetVector("_FractalWorldPos", tr.position - (toCam * FractalRadius));
+		rnd.material.SetVector("_FractalWorldPos", tr.position - (toCam * FractalRadius * FractalScale));
 	}
 }
