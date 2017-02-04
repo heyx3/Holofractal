@@ -12,11 +12,15 @@ public class FractalController : MonoBehaviour
 	public AnimationCurve PowerAnimation;
 	public float AnimationDir = 0.0f;
 	public float AnimationSpeed = 0.2f;
+	[Range(0.0f, 1.0f)]
 	public float CurrentT = 0.0f;
 	public float FractalRadius = 0.75f;
+	public float FractalScale = 1.0f;
 	
 	private MeshRenderer rnd;
 	private Transform tr;
+	private float initialFractalScale;
+	private Vector3 initialTrScale;
 	
 	
 	public void PlayForward()
@@ -36,6 +40,9 @@ public class FractalController : MonoBehaviour
 	{
 		rnd = GetComponent<MeshRenderer>();
 		tr = transform;
+		
+		initialFractalScale = rnd.material.GetFloat("_FractalScale");
+		initialTrScale = tr.localScale;
 	}
 	private void Update()
 	{
@@ -52,6 +59,9 @@ public class FractalController : MonoBehaviour
 		}
 		
 		rnd.material.SetFloat("_FractalPower", PowerAnimation.Evaluate(CurrentT));
+		
+		tr.localScale = initialTrScale * FractalScale;
+		rnd.material.SetFloat("_FractalScale", initialFractalScale / FractalScale);
 
 		Vector3 toCam = (CamTr.position - tr.position).normalized;
 		tr.forward = -toCam; //Unity's quad mesh is flipped backwards.
