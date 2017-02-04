@@ -107,7 +107,7 @@
 			result.nIterations = 0.0;
 			
 			const int nIterations = 200;
-			const float distanceEpsilon = 0.001;
+			const float distanceEpsilon = 0.01;
 			
 			for (int i = 0; i < nIterations; ++i) {
 				result.nIterations += 1.0;
@@ -136,10 +136,12 @@
 			
 			if (castResult.didHit > 0.5) {
 				//Choose a value ini the color ramp based on some aspect of the fractal.
-				float colorT = castResult.fractal.iterationsT;
+				float colorT = castResult.fractal.data.x * 0.05;/// 10000.0;
+				colorT = atan2(castResult.fractal.data.y * 0.01, castResult.fractal.data.x);
 				
 				o.Albedo = tex2D(_MainTex, float2(colorT, 0.0));
 				o.Albedo.rgb *= _Color;
+				//o.Albedo.xyz = colorT;
 				o.Normal = getFractalNormalAt(castResult.hitPos);
 			} else {
 				discard;
